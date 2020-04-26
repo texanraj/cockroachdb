@@ -1,4 +1,4 @@
-# My experiments with Cockroachdb!
+# My experiments with Cockroachdb on Minikube!
 
 # Install Cockroachdb with Helm
 
@@ -107,5 +107,38 @@ job.batch/my-release-cockroachdb-init   1/1           37s        17m
  <img src="4thnodeadd.png">
 <HR>
 <P>
-     
+
+# Generating a Load against the CRDB cluster:
+
+The following is the workload command for a duration of 1 minute againts the bank DB
+```
+raj$ kubectl run workload-run -it --image=cockroachdb/cockroach:latest --rm --restart=Never -- workload run bank --duration=1m 'postgresql://root@my-release-cockroachdb-public:26257?sslmode=disable&ApplicationName=bank'
+If you don't see a command prompt, try pressing enter.
+_elapsed___errors__ops/sec(inst)___ops/sec(cum)__p50(ms)__p95(ms)__p99(ms)_pMax(ms)
+    1.0s        0          134.3          137.2     29.4    134.2    570.4    637.5 transfer
+    2.0s        0          177.0          157.0     39.8     88.1    285.2    637.5 transfer
+    3.0s        0          185.9          166.6     39.8     79.7    125.8    226.5 transfer
+    4.0s        0          183.9          170.9     44.0     75.5     83.9    167.8 transfer
+    5.0s        0          187.1          174.2     39.8     83.9    109.1    142.6 transfer
+    6.0s        0          148.8          170.0     44.0    125.8    369.1    402.7 transfer
+    7.0s        0          171.1          170.1     39.8     75.5    109.1    335.5 transfer
+    8.0s        0          142.0          166.6     46.1    134.2    369.1    419.4 transfer
+    9.0s        0          178.0          167.9     41.9     79.7    109.1    159.4 transfer
+   10.0s        0          168.0          167.9     39.8    113.2    201.3    285.2 transfer
+   11.0s        0          163.0          167.4     41.9    109.1    201.3    260.0 transfer
+   12.0s        0          158.9          166.7     46.1     92.3    117.4    268.4 transfer
+   13.0s        0          187.1          168.3     41.9     75.5     96.5    151.0 transfer
+   14.0s        0          172.1          168.6     44.0     83.9    121.6    167.8 transfer
+   15.0s        0          173.8          168.9     41.9     88.1    100.7    176.2 transfer
+   16.0s        0          157.2          168.2     50.3     88.1    117.4    226.5 transfer
+   17.0s        0          148.7          167.0     50.3     92.3    268.4    335.5 transfer
+   18.0s        0          138.2          165.4     52.4    117.4    151.0    209.7 transfer
+   19.0s        0          171.1          165.7     41.9     96.5    159.4    201.3 transfer
+   20.0s        0          146.9          164.8     48.2    117.4    209.7    234.9 transfer
+...
+```
+<P>
+ <img src="loadtest1m.png">
+<HR>
+<P>
  
