@@ -96,4 +96,10 @@ NAME                                    COMPLETIONS   DURATION   AGE
 job.batch/my-release-cockroachdb-init   1/1           37s        17m
 
 ```
-
+<HR>
+<P>
+ <img src="4thnodeadd.png">
+<HR>
+<P>
+     
+ 
