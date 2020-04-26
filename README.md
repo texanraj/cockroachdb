@@ -1,6 +1,8 @@
 # My experiments with Cockroachdb on Minikube!
 
-# Install Cockroachdb with Helm
+## Launch and Initialize CRDB
+
+## Install Cockroachdb with Helm
 
 ```
 raj$ helm install my-release stable/cockroachdb
