@@ -246,5 +246,24 @@ The platform behaved as expected.
 
 # Executing a Code Example
 
-Followed the steps outlined in https://www.cockroachlabs.com/docs/v2.1/build-an-app-with-cockroachdb.html to create a Node.js app with CRDB.
+Followed the steps outlined in https://www.cockroachlabs.com/docs/v2.1/build-an-app-with-cockroachdb.html to create a Node.js app with CRDB. Output shown below.
 
+
+```
+raj$ node basic-sample.js
+Initial balances:
+{ id: '1', balance: '1000' }
+{ id: '2', balance: '250' }
+
+root@:26257/bank> SELECT id, balance FROM accounts;
+  id | balance
++----+---------+
+   1 |     900
+   2 |     350
+(2 rows)
+
+Time: 1.96ms
+
+root@:26257/bank>
+
+```
