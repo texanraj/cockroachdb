@@ -1,5 +1,4 @@
-# My experiments with Cockroachdb on Minikube! 
-:smile
+# My experiments with Cockroachdb on Minikube! :smile:
 
 ## Launch and Initialize CRDB
 
@@ -244,4 +243,8 @@ _elapsed___errors__ops/sec(inst)___ops/sec(cum)__p50(ms)__p95(ms)__p99(ms)_pMax(
 4. Did the platform behave differently than you would expect in any of the above
 scenarios? If so please describe.
 The platform behaved as expected.
+
+# Executing a Code Example
+
+Followed the steps outlined in https://www.cockroachlabs.com/docs/v2.1/build-an-app-with-cockroachdb.html to create a Node.js app with CRDB.
 
