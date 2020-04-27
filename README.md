@@ -1,4 +1,5 @@
-# My experiments with Cockroachdb on Minikube! :smile
+# My experiments with Cockroachdb on Minikube! 
+:smile
 
 ## Launch and Initialize CRDB
 
@@ -200,12 +201,47 @@ performance? What kinds of metrics were you tracking to identify that impact?
 The key metrics that I was monitoring were around service latency: SQL, replicas per node, execution latency and transaction latency. These metrics were proportionate to the adding and removing of nodes.
   
 2. What other kinds of behavior did you witness as you were changing the cluster topology? How did the system handle the hard node failure differently than the graceful shutdown?
-The replication status was interesting to watch as the cluster topology changed. Graceful shutdown was a lot cleaner than the hard node shutdown. But in case of my Kubernetes cluster the cluster spun backup the node righ away and the load test had a little blip.
+The replication status was interesting to watch as the cluster topology changed. Graceful shutdown was a lot cleaner than the hard node shutdown. But in case of my Kubernetes cluster the cluster spun backup the node right away and the load test had a little blip.
 
 3. When you killed all of the nodes but one, what happened to the database?
-Cluster stop working. See above screen shot.
+Cluster stop working. See above screen shot and the transfer stopped (1962s) as shown below from the load test.
+
+```
+1941.0s        0          151.2          150.1     46.1     83.9    109.1    318.8 transfer
+ 1942.0s        0          172.0          150.1     46.1     88.1    113.2    184.5 transfer
+ 1943.0s        0          163.0          150.1     44.0     96.5    121.6    134.2 transfer
+ 1944.0s        0          158.8          150.1     46.1     83.9    125.8    243.3 transfer
+ 1945.0s        0          146.0          150.1     50.3    104.9    142.6    218.1 transfer
+ 1946.0s        0          181.2          150.1     41.9     88.1    109.1    192.9 transfer
+ 1947.0s        0          186.8          150.1     39.8     75.5     96.5    121.6 transfer
+ 1948.0s        0          172.2          150.1     44.0     79.7    117.4    167.8 transfer
+ 1949.0s        0          170.0          150.1     44.0     79.7    121.6    159.4 transfer
+ 1950.0s        0          183.0          150.2     41.9     67.1     88.1     96.5 transfer
+ 1951.0s        0          165.9          150.2     41.9     96.5    142.6    192.9 transfer
+ 1952.0s        0          162.9          150.2     46.1     88.1    142.6    243.3 transfer
+ 1953.0s        0          206.1          150.2     35.7     71.3     92.3    151.0 transfer
+ 1954.0s        0          173.7          150.2     41.9     79.7     92.3    117.4 transfer
+ 1955.0s        0          148.1          150.2     46.1    142.6    192.9    302.0 transfer
+ 1956.0s        0          151.8          150.2     39.8    134.2    251.7    402.7 transfer
+ 1957.0s        0          216.2          150.3     31.5     79.7    109.1    167.8 transfer
+ 1958.0s        0          239.0          150.3     28.3     75.5    142.6    201.3 transfer
+ 1959.0s        0          249.1          150.3     30.4     58.7    100.7    130.0 transfer
+ 1960.0s        0          225.0          150.4     32.5     62.9     92.3    201.3 transfer
+_elapsed___errors__ops/sec(inst)___ops/sec(cum)__p50(ms)__p95(ms)__p99(ms)_pMax(ms)
+ 1961.0s        0          188.0          150.4     29.4     62.9     83.9    335.5 transfer
+ 1962.0s        0            0.0          150.3      0.0      0.0      0.0      0.0 transfer
+ 1963.0s        0            0.0          150.3      0.0      0.0      0.0      0.0 transfer
+ 1964.0s        0            0.0          150.2      0.0      0.0      0.0      0.0 transfer
+ 1965.0s        0            0.0          150.1      0.0      0.0      0.0      0.0 transfer
+ 1966.0s        0            0.0          150.0      0.0      0.0      0.0      0.0 transfer
+ 1967.0s        0            0.0          149.9      0.0      0.0      0.0      0.0 transfer
+ 1968.0s        0            0.0          149.9      0.0      0.0      0.0      0.0 transfer
+ 1969.0s        0            0.0          149.8      0.0      0.0      0.0      0.0 transfer
+ 1970.0s        0            0.0          149.7      0.0      0.0      0.0      0.0 transfer
+ 1971.0s        0            0.0          149.6      0.0      0.0      0.0      0.0 transfer
+```
 
 4. Did the platform behave differently than you would expect in any of the above
 scenarios? If so please describe.
-No the platform behaved as expected.
+The platform behaved as expected.
 
