@@ -1,4 +1,4 @@
-# My experiments with Cockroachdb on Minikube! ::smile
+# My experiments with Cockroachdb on Minikube! :smile
 
 ## Launch and Initialize CRDB
 
@@ -193,3 +193,19 @@ kubectl run cockroachdb -it --image=cockroachdb/cockroach:v19.2.6 --rm --restart
  <img src="clusterstop.png">
 <HR>
 <P>
+
+### Q&A
+1. As you were adding and removing nodes from the cluster, how did that impact
+performance? What kinds of metrics were you tracking to identify that impact?
+The key metrics that I was monitoring were around service latency: SQL, replicas per node, execution latency and transaction latency. These metrics were proportionate to the adding and removing of nodes.
+  
+2. What other kinds of behavior did you witness as you were changing the cluster topology? How did the system handle the hard node failure differently than the graceful shutdown?
+The replication status was interesting to watch as the cluster topology changed. Graceful shutdown was a lot cleaner than the hard node shutdown. But in case of my Kubernetes cluster the cluster spun backup the node righ away and the load test had a little blip.
+
+3. When you killed all of the nodes but one, what happened to the database?
+Cluster stop working. See above screen shot.
+
+4. Did the platform behave differently than you would expect in any of the above
+scenarios? If so please describe.
+No the platform behaved as expected.
+
