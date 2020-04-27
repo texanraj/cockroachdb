@@ -1,4 +1,4 @@
-# My experiments with Cockroachdb on Minikube!
+# My experiments with Cockroachdb on Minikube! ::smile
 
 ## Launch and Initialize CRDB
 
@@ -143,4 +143,53 @@ _elapsed___errors__ops/sec(inst)___ops/sec(cum)__p50(ms)__p95(ms)__p99(ms)_pMax(
  <img src="loadtest1m.png">
 <HR>
 <P>
- 
+
+Set your load generator to run for at least 60 minutes to give you time to run through
+some common scenarios. Here is the command for generating 60m load test on the bank workload.
+
+```
+raj$ kubectl run workload-run -it --image=cockroachdb/cockroach:latest --rm --restart=Never -- workload run bank --duration=60m 'postgresql://root@my-release-cockroachdb-public:26257?sslmode=disable&ApplicationName=bank'
+If you don't see a command prompt, try pressing enter.
+```
+
+# Scaling and Failing
+
+● Attach a 4th node and see how the system behaves (watch for 5 minutes) - See above screenshot and command line used here.
+```
+kubectl scale statefulset.apps/my-kukaracha-cockroachdb --replicas=4
+```
+
+● Gracefully remove a node from the cluster and see how the system behaves (watch for 5
+minutes)
+Used the decommision command to do this as follows
+
+```
+kubectl run cockroachdb -it --image=cockroachdb/cockroach:v19.2.6 --rm --restart=Never -- node decommission 3 --insecure --host=my-kukaracha-cockroachdb-public
+
+```
+
+● Forcibly remove a node from the cluster (think kill -9) and see how the system behaves
+(watch for 5 minutes)
+Forcibly delete a CRDB pod as shown below.
+
+```
+kubectl delete pod/my-kukaracha-cockroachdb-3
+
+```
+<P>
+ <img src="node3rm.png">
+<HR>
+<P>
+    
+● Remove all nodes but one from the cluster. Decommisioned all the nodes except one and the cluster stops working as expected.
+
+```
+kubectl run cockroachdb -it --image=cockroachdb/cockroach:v19.2.6 --rm --restart=Never -- node decommission 3 --insecure --host=my-kukaracha-cockroachdb-public
+
+kubectl run cockroachdb -it --image=cockroachdb/cockroach:v19.2.6 --rm --restart=Never -- node decommission 2 --insecure --host=my-kukaracha-cockroachdb-public
+
+```
+<P>
+ <img src="clusterstop.png">
+<HR>
+<P>
